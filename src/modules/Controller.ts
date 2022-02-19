@@ -149,7 +149,7 @@ class Controller {
                                ${e.message}
                                投币复活?`)
       if (choice) {
-        window.location.href = location.href + '?time=' + ((new Date()).getTime());
+        window.location.href = window.location.href;
       }
       this.deathOrLive = choice
     }
