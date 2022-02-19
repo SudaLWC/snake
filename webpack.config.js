@@ -88,6 +88,24 @@ module.exports = {
           },
           'less-loader'
         ]
+      },
+
+      {
+        test: /\.(woff|svg|eot|ttf)$/,
+        // 必须添加
+        dependency: { not: ['url'] },
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            },
+          },
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       }
     ]
   },

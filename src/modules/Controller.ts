@@ -1,6 +1,7 @@
 import Food from "./Food";
 import Snake from "./Snake";
 import Scoreboard from "./Scoreboard";
+import Keyboard from "./Keyboard";
 const throttle = require('../../node_modules/lodash/throttle.js')
 
 // 游戏控制器
@@ -8,6 +9,7 @@ class Controller {
   food: Food
   snake: Snake
   scoreboard: Scoreboard
+  keyboard: Keyboard
   // 移动方向
   direction = ''
   // 设置snake状态
@@ -17,13 +19,45 @@ class Controller {
     this.food = new Food()
     this.snake = new Snake()
     this.scoreboard = new Scoreboard(10, 2)
+    this.keyboard = new Keyboard()
     this.init()
   }
   // 游戏初始化
   init() {
-    // doucument绑定控制事件
-    document.addEventListener('keydown', throttle(this.keydownHandler.bind(this), 150))
+    if (window && (window as any)['keyboard']) {
+      this.keyboard.keyboardEle.addEventListener('click', this.directionHandler.bind(this))
+    } else {
+      this.keyboard.keyboardEle.style.display = 'none'
+      // doucument绑定控制事件
+      document.addEventListener('keydown', throttle(this.keydownHandler.bind(this), 150))
+    }
     this.run()
+  }
+  directionHandler(e: MouseEvent) {
+    e.preventDefault()
+    let t: string = (e.target as HTMLElement).className
+    switch (t) {
+      case 'icon-circle-up':
+        if (this.direction === 'ArrowUp') return
+        if (this.snake.bodyEle[1] && this.direction === 'ArrowDown') return
+        this.direction = 'ArrowUp'
+        break
+      case 'icon-circle-left':
+        if (this.direction === 'ArrowLeft') return
+        if (this.snake.bodyEle[1] && this.direction === 'ArrowRight') return
+        this.direction = 'ArrowLeft'
+        break
+      case 'icon-circle-down':
+        if (this.direction === 'ArrowDown') return
+        if (this.snake.bodyEle[1] && this.direction === 'ArrowUp') return
+        this.direction = 'ArrowDown'
+        break
+      case 'icon-circle-right':
+        if (this.direction === 'ArrowRight') return
+        if (this.snake.bodyEle[1] && this.direction === 'ArrowLeft') return
+        this.direction = 'ArrowRight'
+        break
+    }
   }
   /*
     ArrowUp   Up (兼容IE)
@@ -37,22 +71,48 @@ class Controller {
     event.preventDefault()
     let k = event.key
     let d = this.direction
-    if (k === d) return
-    if (!this.snake.bodyEle[1]) {
-      if (k == 'ArrowUp' || k == 'Up' || k == 'ArrowDown' || k == 'Down'
-        || k == 'ArrowLeft' || k == 'Left' || k == 'ArrowRight' || k == 'Right') {
+    // if (k === d) return
+    // if (!this.snake.bodyEle[1]) {
+    //   if (k == 'ArrowUp' || k == 'Up' || k == 'ArrowDown' || k == 'Down'
+    //     || k == 'ArrowLeft' || k == 'Left' || k == 'ArrowRight' || k == 'Right') {
+    //     this.direction = k
+    //     return
+    //   }
+    // }
+    // if (
+    //   ((k == 'ArrowUp' || k == 'Up') && d !== 'ArrowDown' && d !== 'Down') ||
+    //   ((k == 'ArrowDown' || k == 'Down') && d !== 'ArrowUp' && d !== 'Up') ||
+    //   ((k == 'ArrowLeft' || k == 'Left') && d !== 'ArrowRight' && d !== 'Right') ||
+    //   ((k == 'ArrowRight' || k == 'Right') && d !== 'ArrowLeft' && d !== 'Left')
+    // ) {
+    //   // console.log(k);
+    //   this.direction = k
+    // }
+    switch (k) {
+      case 'ArrowUp':
+      case 'Up':
+        if (d === 'ArrowUp' || d === 'Up') return
+        if (this.snake.bodyEle[1] && d === 'ArrowDown' || d === 'Down') return
         this.direction = k
-        return
-      }
-    }
-    if (
-      ((k == 'ArrowUp' || k == 'Up') && d !== 'ArrowDown' && d !== 'Down') ||
-      ((k == 'ArrowDown' || k == 'Down') && d !== 'ArrowUp' && d !== 'Up') ||
-      ((k == 'ArrowLeft' || k == 'Left') && d !== 'ArrowRight' && d !== 'Right') ||
-      ((k == 'ArrowRight' || k == 'Right') && d !== 'ArrowLeft' && d !== 'Left')
-    ) {
-      // console.log(k);
-      this.direction = k
+        break
+      case 'ArrowLeft':
+      case 'Left':
+        if (d === 'ArrowLeft' || d === 'Left') return
+        if (this.snake.bodyEle[1] && d === 'ArrowRight' || d === 'Right') return
+        this.direction = k
+        break
+      case 'ArrowDown':
+      case 'Down':
+        if (d === 'ArrowDown' || d === 'Down') return
+        if (this.snake.bodyEle[1] && d === 'ArrowUp' || d === 'Up') return
+        this.direction = k
+        break
+      case 'ArrowRight':
+      case 'Right':
+        if (d === 'ArrowRight' || d === 'Right') return
+        if (this.snake.bodyEle[1] && d === 'ArrowLeft' || d === 'Left') return
+        this.direction = k
+        break
     }
 
   }

@@ -12,7 +12,7 @@ body {
 }
 
 #main {
-  margin: 100px auto;
+  margin: auto;
   border: 10px solid #000;
   border-radius: 20px;
   width: 360px;
@@ -66,5 +66,21 @@ body {
     display: flex;
     width: 304px;
     justify-content: space-between;
+  }
+}
+
+#keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  width: 360px;
+  height: 100px;
+  margin: auto;
+  &>div {
+    width: 360px;
+    display: flex;
+    justify-content: space-around;
+    i {
+      font-size: 40px;
+    }
   }
 }

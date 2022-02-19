@@ -1,5 +1,8 @@
 // 引入样式
 import './style/index.less'
+import './style/style.css'
+
+import './modules/device.js'
 
 // 引入Controller
 import Controller from './modules/Controller'
@@ -27,3 +30,8 @@ new Controller()
 
 // const snake = new Snake()
 // console.log(snake);
+
+// 
+// import Keyboard from './modules/Keyboard'
+
+// new Keyboard()
