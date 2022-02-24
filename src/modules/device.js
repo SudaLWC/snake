@@ -1,4 +1,4 @@
-function browserRedirect() {
+function browserCheck() {
   var sUserAgent = navigator.userAgent.toLowerCase();
   var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
   var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
@@ -14,4 +14,4 @@ function browserRedirect() {
     window.keyboard = false;
   }
 }
-browserRedirect();
+browserCheck()

@@ -1,7 +1,7 @@
 // 引入样式
 import './style/index.less'
 import './style/style.css'
-
+// 判断pc端和移动端
 import './modules/device.js'
 
 // 引入Controller

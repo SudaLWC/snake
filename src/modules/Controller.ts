@@ -18,6 +18,7 @@ class Controller {
   constructor() {
     this.food = new Food()
     this.snake = new Snake()
+    // 传入两个参数分别设置'最高等级'和'多少分升级',不传参默认为(10,10)
     this.scoreboard = new Scoreboard(10, 2)
     this.keyboard = new Keyboard()
     this.init()
@@ -153,8 +154,9 @@ class Controller {
       }
       this.deathOrLive = choice
     }
-
-    this.deathOrLive && setTimeout(this.run.bind(this), 150 - (this.scoreboard.level - 1) * 15)
+    // 设置速度最快为15ms移动一格
+    let speed = 15 * this.scoreboard.maxLevel - (this.scoreboard.level - 1) * 15
+    this.deathOrLive && setTimeout(this.run.bind(this), speed)
   }
   check(X: number, Y: number) {
     if (X === this.food.X && Y === this.food.Y) {
